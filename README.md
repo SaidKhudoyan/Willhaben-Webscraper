@@ -1,6 +1,10 @@
 # Willhaben-Carscraper
-In the following you are going to see a webscraper for cars on the website willhaben. There are two files, that are of interest.
 
+![WillhabenPage](https://user-images.githubusercontent.com/95490948/223295798-737daec5-b48f-49de-889f-0461ebc72fdd.png)
+
+In the following you are going to see a webscraper for cars on the website willhaben. 
+
+There are two files, that are of interest.
 1. OneCar.py: This file contains all necessary functions to extract the data for an individual car.
 2. Main.py: Here you have to provide a list of the cars you want to extract from the page.
 
