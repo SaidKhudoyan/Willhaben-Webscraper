@@ -10,11 +10,15 @@ The primary objective of this web scraper is to provide better insights into rec
 ## How to get started?
 ----------------------------------------
 
+1. Go to the Willhaben Page and set the filters for the cars you want to extract
+
+![image](https://user-images.githubusercontent.com/95490948/229922319-29b03d94-66fd-4478-a3ae-620833298ee4.png)
 
 
+2. After applying the filter, copy the URL and replace the TEST_URL in main.py with the URL you copied
+
+3. Set the maximum number of pages to go through (to save time). You may also want to change the TAR_PATH or Header information. 
+The Header indicates the type of web browser and operating system you are using. It provides this information to the web server so that it can optimize the content it delivers to your specific device and browser. To optimize your performance, you can replace it with your own Header. To find out your User-Agent information, simply visit http://www.whatsmyua.info/ or http://www.useragentstring.com/
 
 
-
-
-
-NO COMMERCIAL USE! The scraper is only for private use only and should not be used to make profits nor should the data be given to 3rd party people/companies, as it would violate the terms and conditions of the website. The scraper was only created to get some hands-on experience to learn the basics of "Webscraping".
+4. Last but not least, just run the main.py file and get started with your project.
