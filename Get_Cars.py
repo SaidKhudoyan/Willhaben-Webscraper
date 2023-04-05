@@ -1,24 +1,24 @@
 import requests
 import json
-from tqdm import tqdm
 from bs4 import BeautifulSoup
 
 # Extract car title
 def get_title(pre_soup):
-    car_title = pre_soup.find('h1', {'data-testid': 'ad-detail-header'}).text.strip()
-    if car_title:
+    try:
+        car_title = pre_soup.find('h1', {'data-testid': 'ad-detail-header'}).text.strip()
+    except Exception("No car title found"):
+        return "NaN"
+    else:
         return car_title
-    print("No car title found!")
-    return "NaN"
 
 # Extract price
 def get_price(pre_soup):
-    price_element = pre_soup.find('span', {'data-testid': 'contact-box-price-box-price-value-0'})
-    if price_element:
-        price = price_element.text.strip()
-        return price
-    print("No price-element found!")
-    return "NaN"
+    try:
+        price_element = pre_soup.find('span', {'data-testid': 'contact-box-price-box-price-value-0'}).text.strip()
+    except Exception("No price found"):
+        return "NaN"
+    else:
+        return price_element
 
 # Extract location
 def get_location(pre_soup):

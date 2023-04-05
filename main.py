@@ -17,8 +17,12 @@ HEADERS = {
         'Referer': 'https://www.willhaben.at/iad/gebrauchtwagen/auto/gebrauchtwagenboerse'
     }
 
-TAR_PATH = "/WILL_SCRAPER/CAR_CSVs/"
-MAX_PAGES = 3 # maximum number of pages to scrape the urls, usually 30 cars per page, if set to "INF", it will get all data until the last page
+TAR_PATH = "/home/said/PycharmProjects/WILL_SCRAPER/CAR_CSVs/"
+MAX_PAGES = 10 # maximum number of pages to scrape the urls, usually 30 cars per page, if set to "INF", it will get all data until the last page
+
+# DO NOT CHANGE
+CSV_COLUMNS_TITLE = ['Title', 'Price', 'Location', "Erstzulassung", "Kilometerstand", "Leistung", "Treibstoff", "Getriebeart", "Fahrzeugtyp", "Vorbesitzer", 
+               "Zustand", "Antrieb", "CO₂-Ausstoß", "Verbrauch", "Anzahl Türen", "Anzahl Sitze" , 'RestAttributes', 'Equipment']
 ####################################################################
 
 if not os.path.exists(TAR_PATH):
@@ -35,21 +39,21 @@ print(f"CREATED NEW FILE: {filepath}.....")
 
 with open(filepath, mode='w', newline='') as csv_file:
     writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    writer.writerow(['Title', 'Price', 'Location', "Erstzulassung", "Kilometerstand", "Leistung", "Treibstoff", "Getriebeart", "Fahrzeugtyp", "Vorbesitzer", "Zustand", 'BasicsData', 'Equipment'])
-
+    writer.writerow(CSV_COLUMNS_TITLE)
     print("EXTRACT DATA.....")
     for url_ in tqdm(EXAMPLE_URLS):
         with requests.Session() as session:
-            RESPONSE = session.get(url_, headers=HEADERS)
-            soup_content = BeautifulSoup(RESPONSE.content, 'html.parser')
-            if not RESPONSE or not soup_content:
-                print("Response or soup_content is None.")
+            try:
+                RESPONSE = session.get(url_, headers=HEADERS)
+                soup_content = BeautifulSoup(RESPONSE.content, 'html.parser')
+            except Exception("Invalid URL encountered. SKIP to next URL."):
+                continue
             else:
                 car_title = Get_Cars.get_title(soup_content)
                 car_price = Get_Cars.get_price(soup_content)
                 car_location = Get_Cars.get_location(soup_content)
                 car_data = Get_Cars.get_cardata(soup_content)
-                if car_data:
+                if car_data:                        
                     Erstzulassung = car_data.get("Erstzulassung", "NaN")
                     Kilometerstand = car_data.get("Kilometerstand", "NaN")
                     Leistung = car_data.get("Leistung", "NaN")
@@ -58,13 +62,18 @@ with open(filepath, mode='w', newline='') as csv_file:
                     Fahrzeugtyp = car_data.get("Fahrzeugtyp", "NaN")
                     Vorbesitzer = car_data.get("Vorbesitzer", "NaN")
                     Zustand = car_data.get("Zustand", "NaN")
+                    Antrieb = car_data.get("Antrieb", "NaN")
+                    CO2_Ausstoß = car_data.get("CO₂-Ausstoß", "NaN")
+                    Verbrauch = car_data.get("Verbrauch", "NaN")
+                    AnzahlTüren = car_data.get("Anzahl Türen", "NaN")
+                    AnzahlSitze = car_data.get("Anzahl Sitze", "NaN")
                 car_equipment = Get_Cars.get_equipment(soup_content)
         
-        key_to_remove = ["Erstzulassung", "Kilometerstand", "Leistung", "Treibstoff", "Getriebeart", "Fahrzeugtyp", "Vorbesitzer", "Zustand"]
-        for i in key_to_remove:
-            try:
-                car_data.pop(i)
-            except KeyError:
-                continue
-        writer.writerow([car_title, car_price, car_location, Erstzulassung, Kilometerstand, Leistung, Treibstoff, Getriebeart, Fahrzeugtyp, Vorbesitzer, Zustand ,car_data, car_equipment])
-        time.sleep(0.1)
+                for i in CSV_COLUMNS_TITLE:
+                    try:
+                        car_data.pop(i)
+                    except KeyError:
+                        continue
+                writer.writerow([car_title, car_price, car_location, Erstzulassung, Kilometerstand, Leistung, Treibstoff, Getriebeart, Fahrzeugtyp, Vorbesitzer, 
+                                 Zustand, Antrieb, CO2_Ausstoß, Verbrauch, AnzahlTüren, AnzahlSitze, car_data, car_equipment])
+                time.sleep(0.1)
