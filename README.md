@@ -4,7 +4,11 @@ This project is a web scraper designed to extract data from Willhaben, the large
 
 The primary objective of this web scraper is to provide better insights into recent price increases in the cars market by extracting data from Willhaben. With the extracted data, it is possible to analyze various factors and gain a deeper understanding of the trends within the car market.
 
-
+### Update [13.4.2023]:
+The next goals are:
+1. Create a notebook which takes data as input, visualizes it in different ways and analyses the data to get insights.
+2. Create a willhaben search-agent which notifies the user almost instantly if a new car has been added (official search agents of willhaben usually take 12hrs for a notification
+3. Automate the data extraction and visualization process and let it run automatically
 
 
 ## How to get started?
